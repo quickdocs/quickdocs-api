@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  api:
+    container_name: quickdocs-api
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: quickdocs/quickdocs-api
+    environment:
+      APP_ENV: docker
+      PORT: 15050
+    ports:
+      - "15050:15050"
+    depends_on:
+      - maindb
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - /app/.qlot
+      - lisp_cache:/root/.cache/common-lisp
+  maindb:
+    container_name: quickdocs-maindb
+    image: postgres:10.1
+    environment:
+      POSTGRES_USER: quickdocs
+      POSTGRES_PASSWORD: quickdocs
+      POSTGRES_DB: quickdocs
+    ports:
+      - "25432:5432"
+    volumes:
+      - maindb_data:/var/lib/postgresql/data
+
+volumes:
+  lisp_cache:
+    name: quickdocs_api_lisp_cache
+  maindb_data:
+    name: quickdocs_maindb_data

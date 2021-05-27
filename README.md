@@ -4,24 +4,20 @@ Quickdocs.org API server
 
 ## Requirements
 
-* [Qlot](https://github.com/fukamachi/qlot)
+* Docker Engine
 
-## Installation
-
-```
-$ qlot install
-```
-
-## Run
+## Usage
 
 ```
-$ .qlot/bin/utopian server
-Hunchentoot server is going to start.
-Listening on localhost:5000.
+$ docker-compose up
+
+# Run after the first run to initialize DB
+$ docker run --rm -it --net=host -e DB_PORT=25432 quickdocs/dist-updater setup
+$ docker run --rm -it --net=host -e DB_PORT=25432 quickdocs/dist-updater update 2021-04-21
 ```
 
 ## License
 
 Copyright (c) 2021 Eitaro Fukamachi
 
-Licensed under the BSD 2-Clause License.
+Licensed under the BSD 3-Clause License.

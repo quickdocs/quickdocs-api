@@ -1,0 +1,17 @@
+FROM fukamachi/qlot
+
+WORKDIR /app
+COPY . /app
+RUN qlot install
+
+FROM clfoundation/sbcl
+ENV APP_ENV local
+
+WORKDIR /app
+COPY --from=0 /app/.qlot /app/.qlot
+
+RUN set -x; \
+  mkdir -p "$HOME/.config/common-lisp/source-registry.conf.d/" && \
+  echo '(:tree "/app")' >> "$HOME/.config/common-lisp/source-registry.conf.d/ci.conf"
+
+ENTRYPOINT ["/app/docker/entrypoint.sh"]
