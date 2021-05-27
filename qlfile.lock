@@ -1,0 +1,12 @@
+("quicklisp" .
+ (:class qlot/source/dist:source-dist
+  :initargs (:distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
+  :version "2021-04-11"))
+("utopian" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/fukamachi/utopian")
+  :version "git-532431b4c5e958995ba2d812751b779f814f9810"))
+("dist-updater" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "git://github.com/quickdocs/dist-updater")
+  :version "git-603d32e1a4d0aaa7c32e053080a1c9d5f5d8f8bc"))
