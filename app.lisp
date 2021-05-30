@@ -5,5 +5,4 @@
 (in-package #:quickdocs-api/app)
 
 (make-instance 'quickdocs-api-app
-               :routes *routes*
-               :models #P"models/")
+               :routes *routes*)

@@ -1,10 +1,9 @@
 (defpackage #:quickdocs-api/controllers/root
   (:use #:cl
-        #:utopian
-        #:quickdocs-api/views/root)
+        #:utopian)
   (:export #:index))
 (in-package #:quickdocs-api/controllers/root)
 
 (defun index (params)
   (declare (ignore params))
-  (render 'index-page))
+  "index")
