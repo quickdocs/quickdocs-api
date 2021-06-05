@@ -7,4 +7,4 @@
 (defroutes *routes* ()
   (:controllers #P"../controllers/"))
 
-(route :GET "/" "root:index")
+(route :GET "/dists/:version" "dists:show")

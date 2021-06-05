@@ -12,6 +12,6 @@ COPY --from=0 /app/.qlot /app/.qlot
 
 RUN set -x; \
   mkdir -p "$HOME/.config/common-lisp/source-registry.conf.d/" && \
-  echo '(:tree "/app")' >> "$HOME/.config/common-lisp/source-registry.conf.d/ci.conf"
+  echo '(:tree "/app")' >> "$HOME/.config/common-lisp/source-registry.conf.d/app.conf"
 
 ENTRYPOINT ["/app/docker/entrypoint.sh"]

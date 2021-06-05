@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: Quickdocs API server
+  version: '0.1'
+  contact:
+    name: Eitaro Fukamachi
+    url: 'https://8arrow.org'
+    email: e.arrows@gmail.com
+  description: Quickdocs API server
+servers:
+  - url: 'https://api.quickdocs.org/v1'
+paths:
+  '/dists/{version}':
+    get:
+      summary: Get dist info by the version
+      tags: []
+      parameters:
+        - schema:
+            type: string
+          name: version
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Dist Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dist'
+              examples:
+                Quicklisp 2021-04-11:
+                  value:
+                    name: quicklisp
+                    version: '2021-04-11'
+                    provided_releases_count: 2018
+        '404':
+          description: Dist Not Found
+      operationId: get-dist
+      description: Retrieve the information of the dist with its version.
+components:
+  schemas:
+    Dist:
+      title: Dist
+      type: object
+      description: Dist information
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        provided_releases_count:
+          type: integer
+      x-examples:
+        Quicklisp 2021-04-11:
+          name: quicklisp
+          version: '2021-04-11'
+          provided_releases_count: 2018
