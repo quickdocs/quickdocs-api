@@ -33,4 +33,5 @@
         :per-page per-page
         :page page
         :count (dist-provided-releases-count dist)
-        :items releases))))
+        :items releases)
+      :coerce-key #'to-snake-case)))
