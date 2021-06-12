@@ -9,7 +9,8 @@
                 #:release-maintainers
                 #:release-upstream-url
                 #:release-licenses
-                #:release-dependencies)
+                #:release-depends-on
+                #:release-required-by)
   (:import-from #:com.inuoe.jzon
                 #:coerced-fields))
 (in-package #:quickdocs-api/views/release)
@@ -21,6 +22,5 @@
         `(maintainers ,(release-maintainers release) list)
         `(upstream-url ,(release-upstream-url release) t)
         `(licenses ,(release-licenses release) list)
-        `(required-releases ,(mapcar #'release-name
-                                     (release-dependencies release))
-                            list)))
+        `(depends-on ,(release-depends-on release) list)
+        `(required-by ,(release-required-by release) list)))
