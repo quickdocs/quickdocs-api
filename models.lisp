@@ -2,11 +2,6 @@
   (:use #:cl
         #:sxql)
   (:use-reexport #:dist-updater/models)
-  (:import-from #:dist-updater/models
-                #:system-authors
-                #:system-maintainers
-                #:system-dependency
-                #:system-dependency-name)
   (:import-from #:alexandria
                 #:when-let)
   (:export #:release-systems
