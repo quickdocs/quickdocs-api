@@ -37,6 +37,53 @@ paths:
           description: Dist Not Found
       operationId: get-dist
       description: Retrieve the information of the dist with its version.
+  '/dists/{version}/releases':
+    get:
+      summary: Get releases of the dist
+      tags: []
+      parameters:
+        - name: version
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: All Releases of the Dist
+          content:
+            application/json:
+              schema:
+                properties:
+                  per_page:
+                    type: integer
+                    format: int32
+                  count:
+                    type: integer
+                    format: int32
+                  next:
+                    type: string
+                    format: url
+                  prev:
+                    type: string
+                    format: url
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Release'
+                required:
+                  - per_page
+                  - count
+                  - items
 components:
   schemas:
     Dist:
@@ -55,3 +102,33 @@ components:
           name: quicklisp
           version: '2021-04-11'
           provided_releases_count: 2018
+    Release:
+      title: Release
+      type: object
+      description: Release information
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        maintainers:
+          type: array
+          items:
+            type: string
+        upstream_url:
+          type: string
+          format: url
+        licenses:
+          type: array
+          items:
+            type: string
+        required_releases:
+          type: array
+          items:
+            type: string
+      required:
+        - name

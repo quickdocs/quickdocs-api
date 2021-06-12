@@ -8,3 +8,4 @@
   (:controllers #P"../controllers/"))
 
 (route :GET "/dists/:version" "dists:show")
+(route :GET "/dists/:version/releases" "dists/releases:listing")
