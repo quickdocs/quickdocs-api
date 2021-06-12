@@ -18,7 +18,8 @@ services:
     tty: true
     volumes:
       - .:/app
-      - /app/.qlot
+      - /app/.qlot/dists
+      - ./.qlot/local-projects:/app/.qlot/local-projects
       - lisp_cache:/root/.cache/common-lisp
   maindb:
     container_name: quickdocs-maindb
