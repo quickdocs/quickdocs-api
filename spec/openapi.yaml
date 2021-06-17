@@ -79,7 +79,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Release'
+                      $ref: '#/components/schemas/ReleaseForList'
                 required:
                   - per_page
                   - count
@@ -102,6 +102,20 @@ components:
           name: quicklisp
           version: '2021-04-11'
           provided_releases_count: 2018
+    ReleaseForList:
+      type: object
+      description: Minimum release information for lists
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+      required:
+        - name
     Release:
       title: Release
       type: object

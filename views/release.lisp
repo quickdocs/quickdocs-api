@@ -1,8 +1,11 @@
 (defpackage #:quickdocs-api/views/release
   (:use #:cl)
-  (:import-from #:quickdocs-api/views)
+  (:import-from #:utopian/views
+                #:defview)
+  (:import-from #:quickdocs-api/views
+                #:jzon-view-class
+                #:make-pagination)
   (:import-from #:quickdocs-api/models
-                #:release
                 #:release-name
                 #:release-description
                 #:release-authors
@@ -11,16 +14,50 @@
                 #:release-licenses
                 #:release-depends-on
                 #:release-required-by)
-  (:import-from #:com.inuoe.jzon
-                #:coerced-fields))
+  (:export #:listing
+           #:show))
 (in-package #:quickdocs-api/views/release)
 
-(defmethod coerced-fields :around ((release release))
-  (list `(name ,(release-name release) string)
-        `(description ,(release-description release) t)
-        `(authors ,(release-authors release) list)
-        `(maintainers ,(release-maintainers release) list)
-        `(upstream-url ,(release-upstream-url release) t)
-        `(licenses ,(release-licenses release) list)
-        `(depends-on ,(release-depends-on release) list)
-        `(required-by ,(release-required-by release) list)))
+(defstruct release-json
+  (name nil :type string)
+  (description nil :type t)
+  (authors nil :type list)
+  (maintainers nil :type list)
+  (upstream-url nil :type t)
+  (licenses nil :type list)
+  (depends-on nil :type list)
+  (required-by nil :type list))
+
+(defstruct release-for-listing-json
+  (name nil :type string)
+  (description nil :type t)
+  (authors nil :type list))
+
+(defview listing ()
+  (releases per-page page count)
+  (:metaclass jzon-view-class)
+  (:render
+   (make-pagination
+     :per-page per-page
+     :page page
+     :count count
+     :items (mapcar (lambda (release)
+                      (make-release-for-listing-json
+                        :name (release-name release)
+                        :description (release-description release)
+                        :authors (release-authors release)))
+                    releases))))
+
+(defview show ()
+  (release)
+  (:metaclass jzon-view-class)
+  (:render
+   (make-release-json
+     :name (release-name release)
+     :description (release-description release)
+     :authors (release-authors release)
+     :maintainers (release-maintainers release)
+     :upstream-url (release-upstream-url release)
+     :licenses (release-licenses release)
+     :depends-on (release-depends-on release)
+     :required-by (release-required-by release))))

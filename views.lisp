@@ -1,14 +1,21 @@
 (defpackage #:quickdocs-api/views
   (:use #:cl)
+  (:import-from #:utopian/views
+                #:utopian-view
+                #:utopian-view-class)
   (:import-from #:mito
                 #:dao-class)
   (:import-from #:com.inuoe.jzon
                 #:coerced-fields
-                #:coerce-element)
+                #:coerce-element
+                #:stringify)
   (:import-from #:local-time
                 #:timestamp
                 #:format-timestring)
-  (:export #:make-pagination))
+  (:import-from #:kebab
+                #:to-snake-case)
+  (:export #:make-pagination
+           #:jzon-view-class))
 (in-package #:quickdocs-api/views)
 
 (defmethod coerced-fields :around ((object mito:dao-class))
@@ -33,3 +40,16 @@
   (page nil :type integer)
   (count nil :type integer)
   (items '() :type list))
+
+(defun render-json (object stream)
+  (stringify object
+             :stream stream
+             :coerce-key #'to-snake-case))
+
+(defclass jzon-view (utopian-view) ())
+(defclass jzon-view-class (utopian-view-class)
+  ()
+  (:default-initargs
+   :content-type "application/json"
+   :inherits '(jzon-view)
+   :render-element 'render-json))

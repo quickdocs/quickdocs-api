@@ -5,7 +5,7 @@
 ("utopian" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/fukamachi/utopian")
-  :version "git-532431b4c5e958995ba2d812751b779f814f9810"))
+  :version "git-458b5f73cf7369cccd5dbc90c287d92d1f4ad9d0"))
 ("dist-updater" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/quickdocs/dist-updater")

@@ -1,16 +1,26 @@
 (defpackage #:quickdocs-api/views/dist
   (:use #:cl)
-  (:import-from #:quickdocs-api/views)
+  (:import-from #:utopian
+                #:defview)
+  (:import-from #:quickdocs-api/views
+                #:jzon-view-class)
   (:import-from #:quickdocs-api/models
-                #:dist)
-  (:import-from #:com.inuoe.jzon
-                #:coerced-fields))
+                #:dist-name
+                #:dist-version
+                #:dist-provided-releases-count)
+  (:export #:show))
 (in-package #:quickdocs-api/views/dist)
 
-(defmethod coerced-fields :around ((dist dist))
-  (let ((fields (call-next-method)))
-    (remove-if-not (lambda (key)
-                     (member key '(name version provided-releases-count)
-                             :test 'string=))
-                   fields
-                   :key #'first)))
+(defstruct dist-json
+  (name nil :type string)
+  (version nil :type string)
+  (provided-releases-count nil :type integer))
+
+(defview show ()
+  (dist)
+  (:metaclass jzon-view-class)
+  (:render
+   (make-dist-json
+     :name (dist-name dist)
+     :version (dist-version dist)
+     :provided-releases-count (dist-provided-releases-count dist))))
