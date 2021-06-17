@@ -13,7 +13,7 @@
 ("apispec" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/cxxxr/apispec")
-  :version "git-dcd4bfdb0bc0d8c74825163e3abc3dd5cffeaf86"))
+  :version "git-78f28ea8971a01728802c1b9831c371d85579c6d"))
 ("jzon" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/Zulu-Inuoe/jzon")
