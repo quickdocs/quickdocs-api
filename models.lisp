@@ -2,8 +2,6 @@
   (:use #:cl
         #:sxql)
   (:use-reexport #:dist-updater/models)
-  (:import-from #:dist-updater/models
-                #:release-dist-id)
   (:import-from #:alexandria
                 #:when-let)
   (:export #:release-systems
@@ -75,7 +73,7 @@
                 (group-by :system_dependency.name)
                 (order-by :system_dependency.name))))))
 
-(defun release-required-by (release)
+(defun release-required-by (release dist)
   (when-let ((systems (release-systems release)))
     (mapcar (lambda (row)
               (getf row :name))
@@ -84,7 +82,8 @@
                 (from :system_dependency)
                 (left-join :system :on (:= :system.id :system_dependency.system_id))
                 (left-join :release :on (:= :release.id :system.release_id))
-                (where (:and (:= :release.dist_id (release-dist-id release))
+                (left-join :dist_release :on (:= :dist_release.release_id :release.id))
+                (where (:and (:= :dist_release.dist_id (mito:object-id dist))
                              (:in :system_dependency.name (mapcar #'system-name systems))
                              (:!= :release.name (release-name release))))
                 (group-by :release.name)

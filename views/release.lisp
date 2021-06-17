@@ -49,7 +49,7 @@
                     releases))))
 
 (defview show ()
-  (release)
+  (release dist)
   (:metaclass jzon-view-class)
   (:render
    (make-release-json
@@ -60,4 +60,4 @@
      :upstream-url (release-upstream-url release)
      :licenses (release-licenses release)
      :depends-on (release-depends-on release)
-     :required-by (release-required-by release))))
+     :required-by (release-required-by release dist))))

@@ -23,7 +23,8 @@
     (unless dist
       (throw-code 404))
     (let ((releases (mito:select-dao 'release
-                      (where (:= :dist dist))
+                      (left-join :dist_release :on (:= :dist_release.release_id :release.id))
+                      (where (:= :dist_id (mito:object-id dist)))
                       (order-by :release.name)
                       (limit per-page)
                       (offset (* (1- page) per-page)))))
@@ -39,9 +40,14 @@
          (dist (mito:find-dao 'dist :name "quicklisp" :version version)))
     (unless dist
       (throw-code 404))
-    (let ((release (mito:find-dao 'release
-                                  :dist dist
-                                  :name name)))
+    (let ((release (first
+                     (mito:select-dao 'release
+                       (left-join :dist_release :on (:= :dist_release.release_id :release.id))
+                       (where (:and (:= :dist_id (mito:object-id dist))
+                                    (:= :release.name name)))
+                       (limit 1)))))
       (unless release
         (throw-code 404))
-      (render 'show :release release))))
+      (render 'show
+              :release release
+              :dist dist))))
