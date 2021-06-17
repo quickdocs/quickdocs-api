@@ -61,19 +61,19 @@
       :from-end t)))
 
 (defun release-depends-on (release)
-  (when-let ((systems (release-systems release)))
+  (let ((systems (release-systems release)))
     (mapcar (lambda (row)
               (getf row :name))
             (mito:retrieve-by-sql
-              (select (:release.name)
+              (select (:system_dependency.name)
                 (from :system_dependency)
                 (left-join :system :on (:= :system.id :system_dependency.system_id))
                 (left-join :release :on (:= :release.id :system.release_id))
-                (where (:and (:= :release.dist_id (release-dist-id release))
-                             (:in :system_dependency.system_id (mapcar #'mito:object-id systems))
-                             (:!= :release.name (release-name release))))
-                (group-by :release.name)
-                (order-by :release.name))))))
+                (where `(:and (:= :release.id ,(mito:object-id release))
+                              ,@(and systems
+                                     `((:not-in :system_dependency.name ,(mapcar #'system-name systems))))))
+                (group-by :system_dependency.name)
+                (order-by :system_dependency.name))))))
 
 (defun release-required-by (release)
   (when-let ((systems (release-systems release)))
