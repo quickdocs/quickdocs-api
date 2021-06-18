@@ -58,20 +58,32 @@
       :test #'string=
       :from-end t)))
 
-(defun release-depends-on (release)
-  (let ((systems (release-systems release)))
-    (mapcar (lambda (row)
-              (getf row :name))
-            (mito:retrieve-by-sql
-              (select (:system_dependency.name)
-                (from :system_dependency)
-                (left-join :system :on (:= :system.id :system_dependency.system_id))
-                (left-join :release :on (:= :release.id :system.release_id))
-                (where `(:and (:= :release.id ,(mito:object-id release))
-                              ,@(and systems
-                                     `((:not-in :system_dependency.name ,(mapcar #'system-name systems))))))
-                (group-by :system_dependency.name)
-                (order-by :system_dependency.name))))))
+(defun release-depends-on (release dist)
+  (let* ((systems (release-systems release))
+         (depends-system-names
+           (mapcar (lambda (row)
+                     (getf row :name))
+                   (mito:retrieve-by-sql
+                     (select (:system_dependency.name)
+                       (from :system_dependency)
+                       (join :system :on (:= :system.id :system_dependency.system_id))
+                       (join :release :on (:= :release.id :system.release_id))
+                       (where `(:and (:= :release.id ,(mito:object-id release))
+                                     ,@(and systems
+                                            `((:not-in :system_dependency.name ,(mapcar #'system-name systems))))))
+                       (group-by :system_dependency.name))))))
+    (when depends-system-names
+      (mapcar (lambda (row)
+                (getf row :name))
+              (mito:retrieve-by-sql
+                (select (:release.name)
+                  (from :release)
+                  (join :dist_release :on (:= :dist_release.release_id :release.id))
+                  (join :system :on (:= :system.release_id :release.id))
+                  (where (:and (:= :dist_release.dist_id (mito:object-id dist))
+                               (:in :system.name depends-system-names)))
+                  (group-by :release.name)
+                  (order-by :release.name)))))))
 
 (defun release-required-by (release dist)
   (when-let ((systems (release-systems release)))

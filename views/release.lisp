@@ -59,5 +59,5 @@
      :maintainers (release-maintainers release)
      :upstream-url (release-upstream-url release)
      :licenses (release-licenses release)
-     :depends-on (release-depends-on release)
+     :depends-on (release-depends-on release dist)
      :required-by (release-required-by release dist))))
