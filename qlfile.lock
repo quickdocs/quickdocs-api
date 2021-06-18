@@ -12,8 +12,12 @@
   :version "git-a02c165b71adfa61b1cf75cba7654d9669f2de61"))
 ("apispec" .
  (:class qlot/source/git:source-git
-  :initargs (:remote-url "git://github.com/cxxxr/apispec")
-  :version "git-78f28ea8971a01728802c1b9831c371d85579c6d"))
+  :initargs (:remote-url "git://github.com/cxxxr/apispec" :branch "develop")
+  :version "git-02bd6e88bcca1113b74e682441506c4400640bc9"))
+("cl-openapi-parser" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "git://github.com/pokepay/cl-openapi-parser")
+  :version "git-627bf959cdcbc90789045e3e235dadfe3b58d188"))
 ("jzon" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/Zulu-Inuoe/jzon")
