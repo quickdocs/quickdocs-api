@@ -9,6 +9,7 @@ Quickdocs.org API server
 ## Usage
 
 ```
+$ docker-compose build
 $ docker-compose up
 
 # Run after the first run to initialize DB
