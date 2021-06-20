@@ -16,7 +16,8 @@
                 #:release-depends-on
                 #:release-required-by)
   (:export #:listing
-           #:show))
+           #:show
+           #:release-versions))
 (in-package #:quickdocs-api/views/release)
 
 (defstruct release-json
@@ -64,3 +65,13 @@
      :licenses (release-licenses release)
      :depends-on (release-depends-on release dist)
      :required-by (release-required-by release dist))))
+
+(defview release-versions ()
+  (versions per-page page count)
+  (:metaclass jzon-view-class)
+  (:render
+   (make-pagination
+     :per-page per-page
+     :page page
+     :count count
+     :items versions)))

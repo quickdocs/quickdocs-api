@@ -105,6 +105,53 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Release'
+  '/releases/{name}/versions':
+    get:
+      summary: Get release versions
+      tags: []
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Release versions
+          content:
+            application/json:
+              schema:
+                properties:
+                  per_page:
+                    type: integer
+                    format: int32
+                  count:
+                    type: integer
+                    format: int32
+                  next:
+                    type: string
+                    format: url
+                  prev:
+                    type: string
+                    format: url
+                  items:
+                    type: array
+                    items:
+                      type: string
+                required:
+                  - per_page
+                  - count
+                  - items
 components:
   schemas:
     Dist:
