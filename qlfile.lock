@@ -13,7 +13,7 @@
 ("apispec" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/cxxxr/apispec" :branch "develop")
-  :version "git-02bd6e88bcca1113b74e682441506c4400640bc9"))
+  :version "git-31da0cef7d1eb33e7f9967c12e3e2db5117b3532"))
 ("cl-openapi-parser" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/pokepay/cl-openapi-parser")
