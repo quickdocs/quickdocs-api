@@ -6,6 +6,7 @@
                 #:jzon-view-class
                 #:make-pagination)
   (:import-from #:quickdocs-api/models
+                #:release-dist-version
                 #:release-name
                 #:release-description
                 #:release-authors
@@ -21,6 +22,7 @@
 (defstruct release-json
   (name nil :type string)
   (description nil :type t)
+  (version nil :type string)
   (authors nil :type list)
   (maintainers nil :type list)
   (upstream-url nil :type t)
@@ -55,6 +57,7 @@
    (make-release-json
      :name (release-name release)
      :description (release-description release)
+     :version (release-dist-version release)
      :authors (release-authors release)
      :maintainers (release-maintainers release)
      :upstream-url (release-upstream-url release)

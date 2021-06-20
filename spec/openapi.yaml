@@ -147,6 +147,8 @@ components:
           type: string
         description:
           type: string
+        version:
+          type: string
         authors:
           type: array
           items:
@@ -162,7 +164,11 @@ components:
           type: array
           items:
             type: string
-        required_releases:
+        depends_on:
+          type: array
+          items:
+            type: string
+        required_by:
           type: array
           items:
             type: string
