@@ -3,14 +3,16 @@
         #:utopian
         #:sxql)
   (:import-from #:quickdocs-api/views/release
-                #:listing)
+                #:listing
+                #:show)
   (:import-from #:quickdocs-api/models
                 #:dist
                 #:release
                 #:dist-provided-releases-count)
   (:import-from #:assoc-utils
                 #:aget)
-  (:export #:listing))
+  (:export #:listing
+           #:show))
 (in-package #:quickdocs-api/controllers/dists/releases)
 
 (defun listing (params)
@@ -31,3 +33,31 @@
               :per-page per-page
               :page page
               :count (dist-provided-releases-count dist)))))
+
+(defun find-dist (dist-version)
+  (if dist-version
+      (mito:find-dao 'dist
+                     :name "quicklisp"
+                     :version dist-version)
+      (first (mito:select-dao 'dist
+               (where (:= :name "quicklisp"))
+               (order-by (:desc :version))
+               (limit 1)))))
+
+(defun show (params)
+  (let* ((name (aget params :name))
+         (dist-version (aget params :version))
+         (dist (find-dist dist-version)))
+    (unless dist
+      (throw-code 404))
+    (let ((release (first
+                     (mito:select-dao 'release
+                       (left-join :dist_release :on (:= :dist_release.release_id :release.id))
+                       (where (:and (:= :dist_id (mito:object-id dist))
+                                    (:= :release.name name)))
+                       (limit 1)))))
+      (unless release
+        (throw-code 404))
+      (render 'show
+              :release release
+              :dist dist))))

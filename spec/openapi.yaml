@@ -84,7 +84,7 @@ paths:
                   - per_page
                   - count
                   - items
-  '/releases/{name}':
+  '/dists/{version}/releases/{name}':
     get:
       summary: Get release information
       tags: []
@@ -94,10 +94,11 @@ paths:
           schema:
             type: string
           required: true
-        - name: dist_version
-          in: query
+        - name: version
+          in: path
           schema:
             type: string
+          required: true
       responses:
         '200':
           description: Release information
