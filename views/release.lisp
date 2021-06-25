@@ -23,7 +23,7 @@
 (defstruct release-json
   (name nil :type string)
   (description nil :type t)
-  (version nil :type string)
+  (dist-version nil :type string)
   (authors nil :type list)
   (maintainers nil :type list)
   (upstream-url nil :type t)
@@ -34,6 +34,7 @@
 (defstruct release-for-listing-json
   (name nil :type string)
   (description nil :type t)
+  (dist-version nil :type string)
   (authors nil :type list))
 
 (defview listing ()
@@ -48,6 +49,7 @@
                       (make-release-for-listing-json
                         :name (release-name release)
                         :description (release-description release)
+                        :dist-version (release-dist-version release)
                         :authors (release-authors release)))
                     releases))))
 
@@ -58,7 +60,7 @@
    (make-release-json
      :name (release-name release)
      :description (release-description release)
-     :version (release-dist-version release)
+     :dist-version (release-dist-version release)
      :authors (release-authors release)
      :maintainers (release-maintainers release)
      :upstream-url (release-upstream-url release)

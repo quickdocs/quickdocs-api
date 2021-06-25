@@ -179,6 +179,8 @@ components:
           type: string
         description:
           type: string
+        dist_version:
+          type: string
         authors:
           type: array
           items:
@@ -194,7 +196,7 @@ components:
           type: string
         description:
           type: string
-        version:
+        dist_version:
           type: string
         authors:
           type: array
