@@ -50,7 +50,7 @@
   (flet ((match-part (match first-register)
            (declare (ignore first-register))
            (format nil "\\~A" match)))
-    (ppcre:regex-replace-all "([%_|*+?{}\\(\\)\\[\\]])" string #'match-part :simple-calls t)))
+    (ppcre:regex-replace-all "([%_|*+?{}\\(\\)\\[\\]'\"])" string #'match-part :simple-calls t)))
 
 (defun search-projects-by-topic (query dist)
   (mapcar (lambda (row)
