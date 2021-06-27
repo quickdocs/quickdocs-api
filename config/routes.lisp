@@ -11,3 +11,4 @@
 (route :GET "/dists/:version/releases" "dists/releases:listing")
 (route :GET "/dists/:version/releases/:name" "dists/releases:show")
 (route :GET "/releases/:name/versions" "releases/versions:listing")
+(route :GET "/projects" "projects:search")

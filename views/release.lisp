@@ -17,7 +17,8 @@
                 #:release-required-by)
   (:export #:listing
            #:show
-           #:release-versions))
+           #:release-versions
+           #:make-release-for-listing-json))
 (in-package #:quickdocs-api/views/release)
 
 (defstruct release-json
