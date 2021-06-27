@@ -31,9 +31,10 @@
     (let ((releases
             (mito:select-dao 'release
               (join :dist_release :on (:= :dist_release.release_id :release.id))
-              (left-join :project_download_stats :on (:= :project_download_stats.project_name :release.name))
+              (join :project_download_stats :on (:= :project_download_stats.project_name :release.name))
               (where (:= :dist_id (mito:object-id dist)))
-              (order-by (:splicing-raw "download_count DESC NULLS LAST")))))
+              (order-by (:desc :download_count))
+              (limit 200))))
       (render 'search
               :query nil
               :releases releases))))
