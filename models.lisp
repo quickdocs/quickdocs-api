@@ -3,7 +3,8 @@
         #:sxql)
   (:use-reexport #:dist-updater/models)
   (:import-from #:alexandria
-                #:when-let)
+                #:when-let
+                #:starts-with-subseq)
   (:export #:release-systems
            #:release-primary-system
            #:release-description
@@ -21,14 +22,28 @@
 
 (defun release-primary-system (release)
   (check-type release release)
-  (mito:find-dao 'system
-                 :release release
-                 :name (release-name release)))
+  (or (mito:find-dao 'system
+                     :release release
+                     :name (release-name release))
+      (and (starts-with-subseq "cl-" (release-name release))
+           (mito:find-dao 'system
+                          :release release
+                          :name (subseq (release-name release) 3)))))
 
 (defun release-description (release)
   (check-type release release)
-  (when-let ((system (release-primary-system release)))
-    (system-description system)))
+  (getf (first
+          (mito:retrieve-by-sql
+            (select (:description)
+              (from :system)
+              (where `(:and (:= :release_id ,(mito:object-id release))
+                            (:not-null :description)
+                            (:or (:= :name ,(release-name release))
+                                 ,@(and (starts-with-subseq "cl-" (release-name release))
+                                        `((:= :name ,(subseq (release-name release) 3)))))))
+              (order-by :id)
+              (limit 1))))
+        :description))
 
 (defun release-authors (release)
   (check-type release release)
