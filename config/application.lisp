@@ -17,8 +17,7 @@
 
 (defapp quickdocs-api-app ()
   ()
-  (:config #P"environments/")
-  (:content-type "application/json"))
+  (:config #P"environments/"))
 
 (defmethod call ((app quickdocs-api-app) env)
   (multiple-value-bind (operation path-parameters)

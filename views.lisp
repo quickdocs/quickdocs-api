@@ -2,7 +2,8 @@
   (:use #:cl)
   (:import-from #:utopian/views
                 #:utopian-view
-                #:utopian-view-class)
+                #:utopian-view-class
+                #:utopian-view-direct-superclasses)
   (:import-from #:mito
                 #:dao-class)
   (:import-from #:com.inuoe.jzon
@@ -51,5 +52,7 @@
   ()
   (:default-initargs
    :content-type "application/json"
-   :inherits '(jzon-view)
    :render-element 'render-json))
+
+(defmethod utopian-view-direct-superclasses ((class jzon-view-class))
+  '(jzon-view))

@@ -12,3 +12,4 @@
 (route :GET "/dists/:version/releases/:name" "dists/releases:show")
 (route :GET "/releases/:name/versions" "releases/versions:listing")
 (route :GET "/projects" "projects:search")
+(route :GET "/badge/:name.svg" "projects:badge")

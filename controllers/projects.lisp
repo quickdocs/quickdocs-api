@@ -3,18 +3,21 @@
         #:utopian
         #:sxql)
   (:shadowing-import-from #:quickdocs-api/views/project
-                          #:search)
+                          #:search
+                          #:project-badge)
   (:import-from #:dist-updater/models
                 #:dist
                 #:release
-                #:release-name)
+                #:release-name
+                #:release-dist-version)
   (:import-from #:cl-ppcre)
   (:import-from #:alexandria
                 #:ensure-list)
   (:import-from #:assoc-utils
                 #:aget)
   (:export #:listing
-           #:search))
+           #:search
+           #:badge))
 (in-package #:quickdocs-api/controllers/projects)
 
 (defun find-latest-dist ()
@@ -115,3 +118,18 @@
         (render 'search
                 :query query
                 :releases releases)))))
+
+(defun badge (params)
+  (let* ((name (aget params :name))
+         (release
+           (first
+             (mito:select-dao 'release
+               (where (:and (:= :dist_name "quicklisp")
+                            (:= :name name)))
+               (order-by (:desc :dist-version))
+               (limit 1)))))
+    (render 'project-badge
+            :dist-name "quicklisp"
+            :dist-version (if release
+                              (release-dist-version release)
+                              nil))))
