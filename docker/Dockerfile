@@ -6,6 +6,7 @@ RUN qlot install
 
 FROM clfoundation/sbcl
 ENV APP_ENV local
+ENV CLACK_HANDLER hunchentoot
 
 WORKDIR /app
 COPY --from=0 /app/.qlot /app/.qlot
