@@ -8,3 +8,4 @@
 .#*
 
 .qlot/local-projects
+.qlot/dists/quicklisp
