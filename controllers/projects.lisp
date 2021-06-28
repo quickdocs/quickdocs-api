@@ -51,7 +51,7 @@
   (flet ((match-part (match first-register)
            (declare (ignore first-register))
            (format nil "\\~A" match)))
-    (ppcre:regex-replace-all "([%_|*+?{}\\(\\)\\[\\]'\"])" string #'match-part :simple-calls t)))
+    (ppcre:regex-replace-all "([%_|*+?{}\\(\\)\\[\\]'])" string #'match-part :simple-calls t)))
 
 (defun search-projects-by-topic (query dist)
   (mapcar (lambda (row)
@@ -63,9 +63,10 @@
               (right-join :project_topic :on (:= :project_topic.project_name :release.name))
               (left-join :project_download_stats :on (:= :project_download_stats.project_name :release.name))
               (where (:and (:= :dist_id (mito:object-id dist))
-                           (:raw (format nil "topic SIMILAR TO '%[[:<:]]~A%'"
-                                         (escape-sql-similar-to-meta-char query)))))
-              (order-by (:splicing-raw "download_count DESC NULLS LAST")
+                           (:similar-to :topic
+                                        (format nil "%[[:<:]]~A%"
+                                                (escape-sql-similar-to-meta-char query)))))
+              (order-by (:desc :download_count :nulls :last)
                         (:desc :release.dist_version))
               (group-by :release.id :download_count)))))
 
@@ -74,9 +75,10 @@
     (join :dist_release :on (:= :dist_release.release_id :release.id))
     (left-join :project_download_stats :on (:= :project_download_stats.project_name :release.name))
     (where (:and (:= :dist_id (mito:object-id dist))
-                 (:raw (format nil "name SIMILAR TO '%[[:<:]]~A%'"
-                               (escape-sql-similar-to-meta-char query)))))
-    (order-by (:splicing-raw "download_count DESC NULLS LAST")
+                 (:similar-to :name
+                              (format nil "%[[:<:]]~A%"
+                                      (escape-sql-similar-to-meta-char query)))))
+    (order-by (:desc :download_count :nulls :last)
               (:desc :release.dist_version))))
 
 (defun search-projects-by-description (query dist)
@@ -85,9 +87,10 @@
     (left-join :project_download_stats :on (:= :project_download_stats.project_name :release.name))
     (left-join :system :on (:= :system.name :release.name))
     (where (:and (:= :dist_id (mito:object-id dist))
-                 (:raw (format nil "system.description SIMILAR TO '%[[:<:]]~A%'"
-                               (escape-sql-similar-to-meta-char query)))))
-    (order-by (:splicing-raw "download_count DESC NULLS LAST")
+                 (:similar-to :system.description
+                              (format nil "%[[:<:]]~A%"
+                                      (escape-sql-similar-to-meta-char query)))))
+    (order-by (:desc :download_count :nulls :last)
               (:desc :release.dist_version))))
 
 (defun search (params)

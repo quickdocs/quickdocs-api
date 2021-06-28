@@ -26,3 +26,7 @@
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/fukamachi/mito")
   :version "git-6a23ed7c1b8bb3d52d03cd14b9df47a3efbf7fc1"))
+("sxql" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "git://github.com/fukamachi/sxql")
+  :version "git-cc3478cacb0557475a59cf619dad66c5dc8080ba"))
