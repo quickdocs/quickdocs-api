@@ -15,3 +15,4 @@
 (route :GET "/badge/:name.svg" "projects:badge")
 
 (route :GET "/ping" "root:ping")
+(route :GET "/" "root:index")

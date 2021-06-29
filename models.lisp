@@ -12,7 +12,8 @@
            #:release-maintainers
            #:release-licenses
            #:release-depends-on
-           #:release-required-by))
+           #:release-required-by
+           #:find-latest-dist))
 (in-package #:quickdocs-api/models)
 
 (defun release-systems (release)
@@ -115,3 +116,9 @@
                              (:!= :release.name (release-name release))))
                 (group-by :release.name)
                 (order-by :release.name))))))
+
+(defun find-latest-dist ()
+  (first (mito:select-dao 'dist
+           (where (:= :name "quicklisp"))
+           (order-by (:desc :version))
+           (limit 1))))

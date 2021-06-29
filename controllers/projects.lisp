@@ -5,8 +5,9 @@
   (:shadowing-import-from #:quickdocs-api/views/project
                           #:search
                           #:project-badge)
+  (:import-from #:quickdocs-api/models
+                #:find-latest-dist)
   (:import-from #:dist-updater/models
-                #:dist
                 #:release
                 #:release-name
                 #:release-dist-version)
@@ -19,12 +20,6 @@
            #:search
            #:badge))
 (in-package #:quickdocs-api/controllers/projects)
-
-(defun find-latest-dist ()
-  (first (mito:select-dao 'dist
-           (where (:= :name "quicklisp"))
-           (order-by (:desc :version))
-           (limit 1))))
 
 (defun listing (params)
   (declare (ignore params))
