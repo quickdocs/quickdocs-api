@@ -7,7 +7,9 @@
                 #:release-name
                 #:release-description
                 #:release-dist-version
-                #:release-authors)
+                #:release-upstream-url
+                #:release-authors
+                #:release-licenses)
   (:import-from #:utopian/views
                 #:defview)
   (:import-from #:quickdocs-api/views
@@ -31,7 +33,9 @@
                         :name (release-name release)
                         :description (release-description release)
                         :dist-version (release-dist-version release)
-                        :authors (release-authors release)))
+                        :upstream-url (release-upstream-url release)
+                        :authors (release-authors release)
+                        :licenses (release-licenses release)))
                     releases))))
 
 (defview project-badge ()

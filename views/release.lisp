@@ -36,7 +36,9 @@
   (name nil :type string)
   (description nil :type t)
   (dist-version nil :type string)
-  (authors nil :type list))
+  (upstream-url nil :type (or string null))
+  (authors nil :type list)
+  (licenses nil :type list))
 
 (defview listing ()
   (releases per-page page count)
@@ -51,7 +53,9 @@
                         :name (release-name release)
                         :description (release-description release)
                         :dist-version (release-dist-version release)
-                        :authors (release-authors release)))
+                        :upstream-url (release-upstream-url release)
+                        :authors (release-authors release)
+                        :licenses (release-licenses release)))
                     releases))))
 
 (defview show ()

@@ -181,7 +181,13 @@ components:
           type: string
         dist_version:
           type: string
+        upstream_url:
+          type: string
         authors:
+          type: array
+          items:
+            type: string
+        licenses:
           type: array
           items:
             type: string
