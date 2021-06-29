@@ -75,7 +75,7 @@
     (where (:and (:= :dist_id (mito:object-id dist))
                  (:similar-to :name
                               (format nil "%[[:<:]]~A%"
-                                      (escape-sql-similar-to-meta-char query)))))
+                                      (escape-sql-similar-to-meta-char (string-downcase query))))))
     (order-by (:desc :download_count :nulls :last)
               (:desc :release.dist_version))))
 
@@ -87,7 +87,7 @@
     (where (:and (:= :dist_id (mito:object-id dist))
                  (:similar-to :system.description
                               (format nil "%[[:<:]]~A%"
-                                      (escape-sql-similar-to-meta-char query)))))
+                                      (escape-sql-similar-to-meta-char (string-downcase query))))))
     (order-by (:desc :download_count :nulls :last)
               (:desc :release.dist_version))))
 
