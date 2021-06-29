@@ -15,6 +15,9 @@
                 #:format-timestring)
   (:import-from #:kebab
                 #:to-snake-case)
+  (:import-from #:assoc-utils
+                #:alistp
+                #:alist-hash)
   (:export #:make-pagination
            #:jzon-view-class))
 (in-package #:quickdocs-api/views)
@@ -31,10 +34,16 @@
                      :format local-time:+iso-8601-format+
                      :timezone local-time:+gmt-zone+))
 
-;; XXX: Not to convert as alist/plist.
+;; XXX: Not to convert as plist.
 ;;   Because jzon takes a list of objects as a plist, and tries an object to convert with coerce-key
 (defmethod coerce-element ((element cons) coerce-key)
-  (coerce element 'vector))
+  (if (alistp element)
+      (alist-hash (mapcar (lambda (pair)
+                            (cons
+                              (funcall coerce-key (car pair))
+                              (cdr pair)))
+                          element))
+      (coerce element 'vector)))
 
 (defstruct pagination
   (per-page nil :type integer)

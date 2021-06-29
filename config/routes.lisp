@@ -13,3 +13,5 @@
 (route :GET "/releases/:name/versions" "releases/versions:listing")
 (route :GET "/projects" "projects:search")
 (route :GET "/badge/:name.svg" "projects:badge")
+
+(route :GET "/ping" "root:ping")
