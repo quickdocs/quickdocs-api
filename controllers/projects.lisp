@@ -54,7 +54,7 @@
 
 (defun search-projects-by-topic (query dist)
   (mapcar (lambda (row)
-            (apply #'mito:make-dao-instance 'release row))
+            (apply #'mito:make-dao-instance (find-class 'release) row))
           (mito:retrieve-by-sql
             (select :release.*
               (from :release)
