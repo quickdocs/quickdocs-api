@@ -7,4 +7,5 @@
                :host "maindb"
                :database-name "quickdocs"
                :username "quickdocs"
-               :password "quickdocs"))))
+               :password "quickdocs"
+               :microsecond-precision t))))
