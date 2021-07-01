@@ -1,4 +1,4 @@
-(defpackage #:quickdocs-api/controllers/releases/versions
+(defpackage #:quickdocs-api/controllers/projects/versions
   (:use #:cl
         #:utopian
         #:sxql)
@@ -10,7 +10,7 @@
   (:import-from #:assoc-utils
                 #:aget)
   (:export #:listing))
-(in-package #:quickdocs-api/controllers/releases/versions)
+(in-package #:quickdocs-api/controllers/projects/versions)
 
 (defun listing (params)
   (let* ((name (aget params :name))

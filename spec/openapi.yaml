@@ -106,9 +106,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Release'
-  '/releases/{name}/versions':
+  '/projects/{name}':
     get:
-      summary: Get release versions
+      summary: Get project information
+      tags: []
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Release information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+  '/projects/{name}/versions':
+    get:
+      summary: Get project versions
       tags: []
       parameters:
         - name: name
