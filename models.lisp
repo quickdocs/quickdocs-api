@@ -23,13 +23,9 @@
 
 (defun release-primary-system (release)
   (check-type release release)
-  (or (mito:find-dao 'system
-                     :release release
-                     :name (release-name release))
-      (and (starts-with-subseq "cl-" (release-name release))
-           (mito:find-dao 'system
-                          :release release
-                          :name (subseq (release-name release) 3)))))
+  (mito:find-dao 'system
+                 :release release
+                 :is-primary t))
 
 (defun release-description (release)
   (check-type release release)
@@ -37,12 +33,9 @@
           (mito:retrieve-by-sql
             (select (:description)
               (from :system)
-              (where `(:and (:= :release_id ,(mito:object-id release))
-                            (:not-null :description)
-                            (:or (:= :name ,(release-name release))
-                                 ,@(and (starts-with-subseq "cl-" (release-name release))
-                                        `((:= :name ,(subseq (release-name release) 3)))))))
-              (order-by :id)
+              (where (:and (:= :release_id (mito:object-id release))
+                           (:= :is_primary "true")
+                           (:not-null :description)))
               (limit 1))))
         :description))
 
