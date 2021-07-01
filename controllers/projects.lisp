@@ -5,9 +5,10 @@
   (:shadowing-import-from #:quickdocs-api/views/project
                           #:search
                           #:project-badge)
+  (:import-from #:quickdocs-api/views/release
+                #:show)
   (:import-from #:quickdocs-api/models
-                #:find-latest-dist)
-  (:import-from #:dist-updater/models
+                #:find-latest-dist
                 #:release
                 #:release-name
                 #:release-dist-version)
@@ -113,6 +114,18 @@
         (render 'search
                 :query query
                 :releases releases)))))
+
+(defun show (params)
+  (let* ((name (aget params :name))
+         (dist (find-latest-dist)))
+    (unless dist
+      (throw-code 404))
+    (let ((release (retrieve-exact-match-project name dist)))
+      (unless release
+        (throw-code 404))
+      (render 'show
+              :dist dist
+              :release release))))
 
 (defun badge (params)
   (let* ((name (aget params :name))
