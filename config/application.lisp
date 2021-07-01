@@ -40,5 +40,5 @@
     :root (asdf:system-relative-pathname :quickdocs-api #P"public/"))
    :accesslog
    (:mito (db-settings :maindb))
-   :session
+   (:session :keep-empty nil)
    (call-next-method)))
