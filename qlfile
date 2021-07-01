@@ -3,6 +3,3 @@ git dist-updater git://github.com/quickdocs/dist-updater
 git apispec git://github.com/cxxxr/apispec :branch develop
 git cl-openapi-parser git://github.com/pokepay/cl-openapi-parser
 git jzon git://github.com/Zulu-Inuoe/jzon
-git mito git://github.com/fukamachi/mito
-git sxql git://github.com/fukamachi/sxql
-git woo git://github.com/fukamachi/woo

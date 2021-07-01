@@ -1,7 +1,7 @@
 ("quicklisp" .
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
-  :version "2021-04-11"))
+  :version "2021-06-30"))
 ("utopian" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/fukamachi/utopian")
@@ -22,15 +22,3 @@
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/Zulu-Inuoe/jzon")
   :version "git-ee9f01919f229a40b91caf8601562dceee27f04d"))
-("mito" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "git://github.com/fukamachi/mito")
-  :version "git-6a23ed7c1b8bb3d52d03cd14b9df47a3efbf7fc1"))
-("sxql" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "git://github.com/fukamachi/sxql")
-  :version "git-cc3478cacb0557475a59cf619dad66c5dc8080ba"))
-("woo" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "git://github.com/fukamachi/woo")
-  :version "git-51bb7f243d8241c77c18033ecf90e40eed3fc831"))
