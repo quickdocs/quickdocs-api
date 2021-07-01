@@ -9,7 +9,7 @@
 ("dist-updater" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/quickdocs/dist-updater")
-  :version "git-d59959a93bb053242b2fca4c740cae40bd216d7e"))
+  :version "git-a037fffb38b7f95ac498b704ba7e9d6da9f2e1b9"))
 ("apispec" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/cxxxr/apispec" :branch "develop")
