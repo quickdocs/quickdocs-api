@@ -14,7 +14,8 @@
 (defstruct dist-json
   (name nil :type string)
   (version nil :type string)
-  (provided-releases-count nil :type integer))
+  (provided-releases-count nil :type integer)
+  (updated-at nil :type (or string local-time:timestamp)))
 
 (defview show ()
   (dist)
@@ -23,4 +24,5 @@
    (make-dist-json
      :name (dist-name dist)
      :version (dist-version dist)
-     :provided-releases-count (dist-provided-releases-count dist))))
+     :provided-releases-count (dist-provided-releases-count dist)
+     :updated-at (mito:object-created-at dist))))

@@ -5,15 +5,16 @@
                 #:find-latest-dist
                 #:dist-version)
   (:import-from #:quickdocs-api/views/root
-                #:index
                 #:ping)
+  (:import-from #:quickdocs-api/views/dist
+                #:show)
   (:export #:ping))
 (in-package #:quickdocs-api/controllers/root)
 
 (defun index (params)
   (declare (ignore params))
   (let ((dist (find-latest-dist)))
-    (render 'index
+    (render 'show
             :dist dist)))
 
 (defun ping (params)
