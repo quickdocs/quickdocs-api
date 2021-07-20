@@ -93,12 +93,13 @@
               (:desc :release.dist_version))))
 
 (defun search (params)
-  (let ((query (aget params "q")))
-    (when (or (null query)
-              (= 0 (length query)))
+  (let ((q (aget params "q")))
+    (when (or (not (stringp q))
+              (= 0 (length q)))
       (return-from search (listing params)))
 
-    (let ((dist (find-latest-dist)))
+    (let ((query (string-downcase q))
+          (dist (find-latest-dist)))
       (unless dist
         (throw-code 404))
       (let ((releases
@@ -112,7 +113,7 @@
                 :test #'string=
                 :from-end t)))
         (render 'search
-                :query query
+                :query q
                 :releases releases)))))
 
 (defun show (params)
