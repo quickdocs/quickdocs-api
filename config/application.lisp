@@ -17,7 +17,9 @@
 
 (defapp quickdocs-api-app ()
   ()
-  (:config #P"environments/"))
+  (:config #P"environments/")
+  (:additional-headers
+   :access-control-allow-origin "*"))
 
 (defmethod call ((app quickdocs-api-app) env)
   (multiple-value-bind (operation path-parameters)
