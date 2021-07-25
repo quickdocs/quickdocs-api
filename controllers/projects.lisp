@@ -43,7 +43,7 @@
     (mito:select-dao 'release
       (join :dist_release :on (:= :dist_release.release_id :release.id))
       (where (:and (:= :dist_id (mito:object-id dist))
-                   (:= :name name)))
+                   (:in :name (list name (format nil "cl-~A" name)))))
       (limit 1))))
 
 (defun escape-sql-similar-to-meta-char (string)
@@ -75,8 +75,8 @@
     (left-join :project_download_stats :on (:= :project_download_stats.project_name :release.name))
     (where (:and (:= :dist_id (mito:object-id dist))
                  (:similar-to :name
-                              (format nil "%[[:<:]]~A%"
-                                      (escape-sql-similar-to-meta-char (string-downcase query))))))
+                              (format nil "%[[:<:]]~(~A~)%"
+                                      (escape-sql-similar-to-meta-char query)))))
     (order-by (:desc :download_count :nulls :last)
               (:desc :release.dist_version))))
 
@@ -86,11 +86,21 @@
     (left-join :project_download_stats :on (:= :project_download_stats.project_name :release.name))
     (left-join :system :on (:= :system.name :release.name))
     (where (:and (:= :dist_id (mito:object-id dist))
-                 (:similar-to :system.description
+                 (:similar-to (:lower :system.description)
                               (format nil "%[[:<:]]~A%"
                                       (escape-sql-similar-to-meta-char (string-downcase query))))))
     (order-by (:desc :download_count :nulls :last)
               (:desc :release.dist_version))))
+
+(defun normalize-query (q)
+  (cond
+    ((member q '("regex" "regexp") :test 'equal)
+     "regular expression")
+    ((member q '("aws") :test 'equal)
+     "amazon web services")
+    ((member q '("db") :test 'equal)
+     "database")
+    (t (string-downcase q))))
 
 (defun search (params)
   (let ((q (aget params "q")))
@@ -98,7 +108,7 @@
               (= 0 (length q)))
       (return-from search (listing params)))
 
-    (let ((query (string-downcase q))
+    (let ((query (normalize-query q))
           (dist (find-latest-dist)))
       (unless dist
         (throw-code 404))
