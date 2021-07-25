@@ -68,6 +68,11 @@
       :test #'string=
       :from-end t)))
 
+(defun release-readme-files (release)
+  (mito:select-dao 'readme-file
+    (where (:= :release release))
+    (order-by :filename)))
+
 (defun release-depends-on (release dist)
   (let* ((systems (release-systems release))
          (depends-system-names
