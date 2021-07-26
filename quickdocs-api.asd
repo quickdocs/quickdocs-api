@@ -2,7 +2,7 @@
   :class :package-inferred-system
   :author "Eitaro Fukamachi"
   :license "BSD 3-Clause"
-  :version "0.1.2"
+  :version "0.1.3"
   :description "Quickdocs.org API server"
   :depends-on ("quickdocs-api/main"
                "clack"))
