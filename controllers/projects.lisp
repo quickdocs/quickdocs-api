@@ -43,7 +43,7 @@
     (mito:select-dao 'release
       (join :dist_release :on (:= :dist_release.release_id :release.id))
       (where (:and (:= :dist_id (mito:object-id dist))
-                   (:in :name (list name (format nil "cl-~A" name)))))
+                   (:= :name name)))
       (limit 1))))
 
 (defun escape-sql-similar-to-meta-char (string)
