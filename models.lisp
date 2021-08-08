@@ -123,20 +123,24 @@
            (limit 1))))
 
 (defun dist-updated-projects (dist)
-  (mito:retrieve-by-sql
-    (select (:r1.name
-             :system.description
-             (:as (:case
-                    (:when (:is-null :r2.dist_version) (:raw "true"))
-                    (:else (:raw "false")))
-                  :is_new))
-      (from (:as :release :r1))
-      (left-join (:as :release :r2)
-                 :on (:and (:= :r1.name :r2.name)
-                           (:= :r1.dist_name :r2.dist_name)
-                           (:< :r2.dist_version :r1.dist_version)))
-      (left-join :system :on (:and (:= :release_id :r1.id)
-                                   (:= :is_primary "true")))
-      (where (:and (:= :r1.dist_name "quicklisp")
-                   (:= :r1.dist_version (dist-version dist))))
-      (order-by :r1.name))))
+  (remove-duplicates
+    (mito:retrieve-by-sql
+      (select (:r1.name
+               :system.description
+               (:as (:case
+                      (:when (:is-null :r2.dist_version) (:raw "true"))
+                      (:else (:raw "false")))
+                    :is_new))
+        (from (:as :release :r1))
+        (left-join (:as :release :r2)
+                   :on (:and (:= :r1.name :r2.name)
+                             (:= :r1.dist_name :r2.dist_name)
+                             (:< :r2.dist_version :r1.dist_version)))
+        (left-join :system :on (:and (:= :release_id :r1.id)
+                                     (:= :is_primary "true")))
+        (where (:and (:= :r1.dist_name "quicklisp")
+                     (:= :r1.dist_version (dist-version dist))))
+        (order-by :r1.name)))
+    :key (lambda (row) (getf row :name))
+    :test 'equal
+    :from-end t))
