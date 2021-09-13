@@ -13,6 +13,7 @@
            #:release-licenses
            #:release-depends-on
            #:release-required-by
+           #:system-dependencies
            #:find-latest-dist
            #:dist-updated-projects))
 (in-package #:quickdocs-api/models)
@@ -115,6 +116,10 @@
                              (:!= :release.name (release-name release))))
                 (group-by :release.name)
                 (order-by :release.name))))))
+
+(defun system-dependencies (system)
+  (mito:select-dao 'system-dependency
+    (where (:= :system system))))
 
 (defun find-latest-dist ()
   (first (mito:select-dao 'dist
