@@ -123,6 +123,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Release'
+  '/projects/{name}/systems':
+    get:
+      summary: Get project systems
+      tags: []
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Release systems
+          content:
+            application/json:
+              schema:
+                properties:
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  dist_version:
+                    type: string
+                  systems:
+                    schema:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/System'
+                required:
+                  - name
   '/projects/{name}/versions':
     get:
       summary: Get project versions
@@ -190,7 +220,7 @@ components:
           provided_releases_count: 2018
     ReleaseForList:
       type: object
-      description: Minimum release information for lists
+      description: Less release information for lists
       properties:
         name:
           type: string
@@ -244,5 +274,67 @@ components:
           type: array
           items:
             type: string
+      required:
+        - name
+    SystemDependency:
+      type: object
+      description: System dependency information
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        feature:
+          type: string
+      required:
+        - name
+    System:
+      type: object
+      description: System information
+      properties:
+        name:
+          type: string
+        is_primary:
+          type: boolean
+        filename:
+          type: string
+        long_name:
+          type: string
+        version:
+          type: string
+        description:
+          type: string
+        long_description:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        maintainers:
+          type: array
+          items:
+            type: string
+        mailto:
+          type: string
+        license:
+          type: string
+        homepage:
+          type: string
+        bug_tracker:
+          type: string
+        source_control_url:
+          type: string
+        defsystem_depends_on:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemDependency'
+        depends_on:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemDependency'
+        weakly_depends_on:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemDependency'
       required:
         - name
