@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app
 RUN qlot install
 
-FROM clfoundation/sbcl
+FROM clfoundation/sbcl:buster-slim
 ENV APP_ENV local
 ENV CLACK_HANDLER hunchentoot
 
