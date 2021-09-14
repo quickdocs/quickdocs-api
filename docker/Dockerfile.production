@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app
 RUN qlot install
 
-FROM clfoundation/sbcl:buster-slim
+FROM clfoundation/sbcl:slim-buster
 ENV APP_ENV production
 ENV CLACK_HANDLER woo
 ENV PORT 80
