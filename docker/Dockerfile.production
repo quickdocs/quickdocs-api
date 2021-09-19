@@ -11,6 +11,7 @@ ENV PORT 80
 
 RUN set -x; \
   apt-get update && apt-get -y install --no-install-recommends \
+    gcc \
     libev-dev \
     libyaml-dev && \
   rm -rf /var/lib/apt/lists/*
