@@ -3,3 +3,4 @@ git dist-updater git://github.com/quickdocs/dist-updater
 git apispec git://github.com/cxxxr/apispec :branch develop
 git cl-openapi-parser git://github.com/pokepay/cl-openapi-parser
 git jzon git://github.com/Zulu-Inuoe/jzon
+ql clack

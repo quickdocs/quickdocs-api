@@ -22,3 +22,7 @@
  (:class qlot/source/git:source-git
   :initargs (:remote-url "git://github.com/Zulu-Inuoe/jzon")
   :version "git-ee9f01919f229a40b91caf8601562dceee27f04d"))
+("clack" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2021-08-07"))

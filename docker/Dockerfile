@@ -1,18 +1,26 @@
 FROM fukamachi/qlot
 
 WORKDIR /app
-COPY . /app
-RUN qlot install
 
-FROM clfoundation/sbcl:slim-buster
+COPY qlfile /app
+COPY qlfile.lock /app
+
+RUN set -x; \
+  qlot install --no-deps
+
+FROM fukamachi/sbcl
 ENV APP_ENV local
 ENV CLACK_HANDLER hunchentoot
+
+RUN set -x; \
+  apt-get update && apt-get -y install --no-install-recommends \
+    libyaml-dev && \
+  rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY --from=0 /app/.qlot /app/.qlot
 
 RUN set -x; \
-  mkdir -p "$HOME/.config/common-lisp/source-registry.conf.d/" && \
-  echo '(:tree "/app")' >> "$HOME/.config/common-lisp/source-registry.conf.d/app.conf"
+  ros -l .qlot/setup.lisp -e '(ql:quickload :clack)'
 
 ENTRYPOINT ["/app/docker/entrypoint.sh"]
