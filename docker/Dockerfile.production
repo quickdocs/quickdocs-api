@@ -12,6 +12,7 @@ ENV PORT 80
 RUN set -x; \
   apt-get update && apt-get -y install --no-install-recommends \
     gcc \
+    libc6-dev \
     libev-dev \
     libyaml-dev && \
   rm -rf /var/lib/apt/lists/*
@@ -20,6 +21,8 @@ WORKDIR /app
 COPY --from=0 /app /app
 
 RUN set -x; \
-  ros -l .qlot/setup.lisp -e '(ql:quickload (list :clack :woo :quickdocs-api))'
+  ros -l .qlot/setup.lisp \
+    -e '(handler-bind ((error (lambda (e) (uiop:print-condition-backtrace e) (uiop:quit -1)))) \
+          (ql:quickload (list :clack :woo)))'
 
 ENTRYPOINT ["/app/docker/entrypoint.sh"]
